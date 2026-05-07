@@ -154,6 +154,13 @@
       color: #ffe6eb;
     }
 
+    .btn.playing {
+  border-color: rgba(255, 90, 120, 0.78);
+  background: rgba(213, 45, 82, 0.28);
+  color: #fff0f3;
+  box-shadow: 0 0 18px rgba(213, 45, 82, 0.22);
+}
+    
 .hero-poster {
   position: relative;
   overflow: hidden;
@@ -675,7 +682,12 @@
             <a class="btn primary" href="#characters">인물 카드 보기</a>
             <a class="btn" href="#routes">시작 루트 보기</a>
             <a class="btn" href="#blood">피와 혈통 보기</a>
-          </div>
+  <button class="btn" type="button" id="bgmToggle">BGM 재생</button>
+</div>
+          
+<audio id="bgm" loop preload="metadata">
+  <source src="BGM/The_Antiseptic_Crown.mp3" type="audio/mpeg">
+</audio>
         </div>
         <div class="hero-poster"></div>
       </div>
@@ -910,6 +922,30 @@ modalImg.innerHTML = imgSrc
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && modal.classList.contains('open')) closeModal();
     });
+
+    const bgm = document.getElementById('bgm');
+const bgmToggle = document.getElementById('bgmToggle');
+
+if (bgm && bgmToggle) {
+  bgm.volume = 0.18;
+
+  bgmToggle.addEventListener('click', async () => {
+    if (bgm.paused) {
+      try {
+        await bgm.play();
+        bgmToggle.textContent = 'BGM 정지';
+        bgmToggle.classList.add('playing');
+      } catch (error) {
+        bgmToggle.textContent = '재생 실패';
+        console.error('BGM 재생 실패:', error);
+      }
+    } else {
+      bgm.pause();
+      bgmToggle.textContent = 'BGM 재생';
+      bgmToggle.classList.remove('playing');
+    }
+  });
+}
   </script>
 </body>
 </html>
